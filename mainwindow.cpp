@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(handler.GetHandler5(),&Handler::deleteuser,this,&MainWindow::OnDeleteUser);
     connect(handler.GetHandler6(),&Handler::adduser,this,&MainWindow::OnAddUser);
     connect(handler.GetHandler7(),&Handler::maketransaction,this,&MainWindow::OnMakeTransaction);
+    connect(handler.GetHandler8(),&Handler::transferamount,this,&MainWindow::OnTransferAmount);
 
     handler.MakeConnect("192.168.1.9",1234);
     QStringList items;
@@ -174,15 +175,12 @@ void MainWindow::OnAddUser(QString massage)
 
 void MainWindow::OnMakeTransaction(QString massage)
 {
-    qDebug()<<massage<<Qt::endl;
-    if(ui->tabWidget->currentIndex()==1)
-    {
-        ui->LWUser->addItem(massage);
-    }
-    else if(ui->tabWidget->currentIndex()==2)
-    {
-        ui->LWAdmin->addItem(massage);
-    }
+    ui->LWUser->addItem(massage);
+}
+
+void MainWindow::OnTransferAmount(QString massage)
+{
+    ui->LWUser->addItem(massage);
 }
 void MainWindow::OnTriggerDe(QAbstractSocket::SocketState socketState)
 {
@@ -339,6 +337,45 @@ void MainWindow::on_PBMakeTransactionUser_clicked()
         ui->LWUser->addItem("Please enter a valid integer amount.");
         ui->LEMakeTransactionUser->clear(); // Optionally clear the line edit
         ui->LEMakeTransactionUser->setFocus(); // Optionally set focus back to the line edit
+    }
+}
+
+
+void MainWindow::on_PBTransferAmountUser_clicked()
+{
+    ui->PBTransferAmountUser->setFocus();
+    // QJsonObject news;
+    // news["Request"]="MakeTransaction";
+    // news["amount"]=ui->LEMakeTransactionUser->text().toInt();
+    // handler.WriteToSocket(news);
+    QString inputText1 = ui->LETransferAmountUserAcountNumber->text();
+    QString inputText2 = ui->LETransferAmountUserAmount->text();
+    // Validate input as integer using QIntValidator
+    QIntValidator validator;
+    int pos = 0; // This will store the position of the first non-numeric character
+    QValidator::State state1 = validator.validate(inputText1, pos);
+    QValidator::State state2 = validator.validate(inputText2, pos);
+    if ((state1 == QValidator::Acceptable)&&(state2 == QValidator::Acceptable)
+        &&(ui->LETransferAmountUserAcountNumber->text()!="")&&(ui->LETransferAmountUserAmount->text()!=""))
+    {
+        // Conversion to integer
+        int amount = inputText2.toInt();
+
+        // Proceed with your logic here, e.g., send 'amount' over the network
+        QJsonObject news;
+        news["Request"] = "TransferAmount";
+        news["amount"] = amount;
+        news["accountnumber"] = inputText1;
+        handler.WriteToSocket(news);
+    }
+    else
+    {
+        // Handle case where input is not a valid integer
+        ui->LWUser->addItem("Please enter a valid integer amount.");
+        ui->LETransferAmountUserAcountNumber->clear(); // Optionally clear the line edit
+        ui->LETransferAmountUserAcountNumber->setFocus(); // Optionally set focus back to the line edit
+        ui->LETransferAmountUserAmount->clear(); // Optionally clear the line edit
+        ui->LETransferAmountUserAmount->setFocus();
     }
 }
 

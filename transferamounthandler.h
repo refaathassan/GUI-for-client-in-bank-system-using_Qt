@@ -2,14 +2,19 @@
 #define TRANSFERAMOUNTHANDLER_H
 
 #include <QObject>
-
-class TransferAmountHandler : public QObject
+#include "handler.h"
+class TransferAmountHandler : public Handler
 {
     Q_OBJECT
 public:
     explicit TransferAmountHandler(QObject *parent = nullptr);
-
+private:
+    Handler* pru;
+public:
+    void Handling(QByteArray jso) override;
+    void SetNextHandler(Handler* pru)override;
 signals:
 };
 
 #endif // TRANSFERAMOUNTHANDLER_H
+

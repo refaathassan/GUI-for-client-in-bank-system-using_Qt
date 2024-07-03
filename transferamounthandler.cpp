@@ -7,10 +7,10 @@ void TransferAmountHandler::Handling(QByteArray jso)
 {
     QJsonDocument js=QJsonDocument::fromJson(jso);
     QJsonObject json=js.object();
-    if(json["Request"].toString()=="MakeTransaction")
+    if(json["Request"].toString()=="TransferAmount")
     {
         QString AccNum=json["Response"].toString();
-        emit maketransaction(AccNum);
+        emit transferamount(AccNum);
     }
     else
     {

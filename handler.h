@@ -22,6 +22,7 @@ signals:
     void deleteuser(QString massage);
     void adduser(QString massage);
     void maketransaction(QString massage);
+    void transferamount(QString massage);
 
 };
 

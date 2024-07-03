@@ -29,6 +29,8 @@ public:
     void OnDeleteUser(QString massage);
     void OnAddUser(QString massage);
     void OnMakeTransaction(QString massage);
+    void OnTransferAmount(QString massage);
+
     ~MainWindow();
 private slots:
     void on_PBLog_clicked();
@@ -52,6 +54,8 @@ private slots:
     void on_PBCreateNewUser_clicked();
 
     void on_PBMakeTransactionUser_clicked();
+
+    void on_PBTransferAmountUser_clicked();
 
 private:
     Ui::MainWindow *ui;
