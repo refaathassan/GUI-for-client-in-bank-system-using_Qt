@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(handler.GetHandler6(),&Handler::adduser,this,&MainWindow::OnAddUser);
     connect(handler.GetHandler7(),&Handler::maketransaction,this,&MainWindow::OnMakeTransaction);
     connect(handler.GetHandler8(),&Handler::transferamount,this,&MainWindow::OnTransferAmount);
+    connect(handler.GetHandler9(),&Handler::viewtransactionhistory,this,&MainWindow::OnViewTransactionHistory);
 
     handler.MakeConnect("192.168.1.9",1234);
     QStringList items;
@@ -182,6 +183,21 @@ void MainWindow::OnTransferAmount(QString massage)
 {
     ui->LWUser->addItem(massage);
 }
+
+
+
+void MainWindow::OnViewTransactionHistory(QStringList massage)
+{
+    qDebug()<<massage<<Qt::endl;
+    if(ui->tabWidget->currentIndex()==1)
+    {
+        ui->LWUser->addItems(massage);
+    }
+    else if(ui->tabWidget->currentIndex()==2)
+    {
+        ui->LWAdmin->addItems(massage);
+    }
+}
 void MainWindow::OnTriggerDe(QAbstractSocket::SocketState socketState)
 {
 
@@ -262,10 +278,35 @@ void MainWindow::on_PBLogOutAdmin_14_clicked()
 void MainWindow::on_PBDeleteUserAdmin_clicked()
 {
     ui->PBDeleteUserAdmin->setFocus();
-    QJsonObject news;
-    news["Request"]="DeleteUser";
-    news["accountnumber"]=ui->LEDeleteUserAdmin->text();
-    handler.WriteToSocket(news);
+    // QJsonObject news;
+    // news["Request"]="MakeTransaction";
+    // news["amount"]=ui->LEMakeTransactionUser->text().toInt();
+    // handler.WriteToSocket(news);
+    QString inputText = ui->LEDeleteUserAdmin->text();
+
+    // Validate input as integer using QIntValidator
+    QIntValidator validator;
+    int pos = 0; // This will store the position of the first non-numeric character
+    QValidator::State state = validator.validate(inputText, pos);
+
+    if ((state == QValidator::Acceptable)&&(ui->LEDeleteUserAdmin->text()!=""))
+    {
+        // Conversion to integer
+        int amount = inputText.toInt();
+
+        // Proceed with your logic here, e.g., send 'amount' over the network
+        QJsonObject news;
+        news["Request"] = "MakeTransaction";
+        news["amount"] = amount;
+        handler.WriteToSocket(news);
+    }
+    else
+    {
+        // Handle case where input is not a valid integer
+        ui->LWAdmin->addItem("Please enter a valid integer accountnumber.");
+        ui->LEDeleteUserAdmin->clear(); // Optionally clear the line edit
+        ui->LEDeleteUserAdmin->setFocus(); // Optionally set focus back to the line edit
+    }
 }
 
 
@@ -275,32 +316,39 @@ void MainWindow::on_PBCreateNewUser_clicked()
     QJsonObject news;
     news["Request"]="AddUser";
     news["username"]=ui->LECreateNewUserLogName->text();
-    news["fullname"]=ui->LEPBCreateNewUserName->text();
-    news["password"]=ui->LECreateNewUserPassword->text();
-    news["type"]=ui->comboBox->currentText();
-
-    if(news["type"].toString()=="user")
+    if(isAlphabetic(news["username"].toString(),"^[a-zA-Z]+$")&&news["username"].toString()!="")
     {
-        QString inputText = ui->LECreateNewUserAccountNumber->text();
-
-        // Validate input as integer using QIntValidator
-        QIntValidator validator;
-        int pos = 0; // This will store the position of the first non-numeric character
-        QValidator::State state = validator.validate(inputText, pos);
-
-        if ((state == QValidator::Acceptable)&&(ui->LEMakeTransactionUser->text()!=""))
+        news["fullname"]=ui->LEPBCreateNewUserName->text();
+        if(isAlphabetic(news["fullname"].toString(),"^[a-zA-Z ]+$")&&news["fullname"].toString()!="")
         {
-            news["accountnumber"]=ui->LECreateNewUserAccountNumber->text();
-            handler.WriteToSocket(news);
+            news["password"]=ui->LECreateNewUserPassword->text();
+            if(news["password"].toString()!="")
+            {
+                news["type"]=ui->comboBox->currentText();
+                handler.WriteToSocket(news);
+            }
+            else
+            {
+                // Handle case where input is not a valid integer
+                ui->LWAdmin->addItem("Please enter a valid password .");
+                ui->LECreateNewUserPassword->clear(); // Optionally clear the line edit
+                ui->LECreateNewUserPassword->setFocus(); // Optionally set focus back to the line edit
+            }
         }
         else
         {
             // Handle case where input is not a valid integer
-            ui->LWAdmin->addItem("Please enter a valid integer amount.");
-            ui->LECreateNewUserAccountNumber->clear(); // Optionally clear the line edit
-            ui->LECreateNewUserAccountNumber->setFocus(); // Optionally set focus back to the line edit
+            ui->LWAdmin->addItem("Please enter a valid string .");
+            ui->LEPBCreateNewUserName->clear(); // Optionally clear the line edit
+            ui->LEPBCreateNewUserName->setFocus(); // Optionally set focus back to the line edit
         }
-
+    }
+    else
+    {
+        // Handle case where input is not a valid integer
+        ui->LWAdmin->addItem("Please enter a valid string .");
+        ui->LECreateNewUserLogName->clear(); // Optionally clear the line edit
+        ui->LECreateNewUserLogName->setFocus(); // Optionally set focus back to the line edit
     }
 
 }
@@ -354,28 +402,59 @@ void MainWindow::on_PBTransferAmountUser_clicked()
     QIntValidator validator;
     int pos = 0; // This will store the position of the first non-numeric character
     QValidator::State state1 = validator.validate(inputText1, pos);
-    QValidator::State state2 = validator.validate(inputText2, pos);
-    if ((state1 == QValidator::Acceptable)&&(state2 == QValidator::Acceptable)
-        &&(ui->LETransferAmountUserAcountNumber->text()!="")&&(ui->LETransferAmountUserAmount->text()!=""))
+    if((state1 == QValidator::Acceptable)&&(ui->LETransferAmountUserAcountNumber->text()!=""))
     {
-        // Conversion to integer
-        int amount = inputText2.toInt();
+        QValidator::State state2 = validator.validate(inputText2, pos);
+        if ((state2 == QValidator::Acceptable)&&(ui->LETransferAmountUserAmount->text()!=""))
+        {
+            // Conversion to integer
+            int amount = inputText2.toInt();
 
-        // Proceed with your logic here, e.g., send 'amount' over the network
-        QJsonObject news;
-        news["Request"] = "TransferAmount";
-        news["amount"] = amount;
-        news["accountnumber"] = inputText1;
-        handler.WriteToSocket(news);
+            // Proceed with your logic here, e.g., send 'amount' over the network
+            QJsonObject news;
+            news["Request"] = "TransferAmount";
+            news["amount"] = amount;
+            news["accountnumber"] = inputText1;
+            handler.WriteToSocket(news);
+        }
+        else
+        {
+            // Handle case where input is not a valid integer
+            ui->LWUser->addItem("Please enter a valid integer amount.");
+
+            ui->LETransferAmountUserAmount->clear(); // Optionally clear the line edit
+            ui->LETransferAmountUserAmount->setFocus();
+        }
     }
     else
     {
-        // Handle case where input is not a valid integer
-        ui->LWUser->addItem("Please enter a valid integer amount.");
+        ui->LWUser->addItem("Please enter a valid accountnumber.");
         ui->LETransferAmountUserAcountNumber->clear(); // Optionally clear the line edit
         ui->LETransferAmountUserAcountNumber->setFocus(); // Optionally set focus back to the line edit
-        ui->LETransferAmountUserAmount->clear(); // Optionally clear the line edit
-        ui->LETransferAmountUserAmount->setFocus();
     }
 }
 
+
+void MainWindow::on_PBViewTransactionHistoryUser_clicked()
+{
+    ui->PBDeleteUserAdmin->setFocus();
+    QJsonObject news;
+    news["Request"]="ViewTransactionHistory";
+    news["count"]=5;
+    handler.WriteToSocket(news);
+}
+
+
+void MainWindow::on_PBViewTransactionHistoryAdmin_clicked()
+{
+    ui->PBDeleteUserAdmin->setFocus();
+    QJsonObject news;
+    news["Request"]="ViewTransactionHistory";
+    news["accountnumber"]=ui->LEDeleteUserAdmin->text();
+    news["count"]=5;
+    handler.WriteToSocket(news);
+}
+bool  MainWindow::isAlphabetic(const QString &str, QString str1) {
+    QRegularExpression regex(str1); // Regular expression to match alphabetic characters only
+    return regex.match(str).hasMatch();
+}

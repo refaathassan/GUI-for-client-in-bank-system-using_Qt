@@ -76,8 +76,6 @@ public:
     QLineEdit *LEPBCreateNewUserName;
     QLabel *label_17;
     QLineEdit *LECreateNewUserLogName;
-    QLabel *label_18;
-    QLineEdit *LECreateNewUserAccountNumber;
     QComboBox *comboBox;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -283,15 +281,6 @@ public:
         LECreateNewUserLogName = new QLineEdit(admin);
         LECreateNewUserLogName->setObjectName("LECreateNewUserLogName");
         LECreateNewUserLogName->setGeometry(QRect(530, 60, 201, 20));
-        label_18 = new QLabel(admin);
-        label_18->setObjectName("label_18");
-        label_18->setGeometry(QRect(360, 120, 161, 21));
-        label_18->setStyleSheet(QString::fromUtf8("font: 16pt \"Segoe UI\";\n"
-"color: rgb(0, 0, 0);\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));"));
-        LECreateNewUserAccountNumber = new QLineEdit(admin);
-        LECreateNewUserAccountNumber->setObjectName("LECreateNewUserAccountNumber");
-        LECreateNewUserAccountNumber->setGeometry(QRect(530, 121, 201, 20));
         comboBox = new QComboBox(admin);
         comboBox->setObjectName("comboBox");
         comboBox->setGeometry(QRect(600, 150, 131, 31));
@@ -319,7 +308,7 @@ public:
         QObject::connect(PBLogOutAdmin, &QPushButton::clicked, LEGetAccountNumberadmin, qOverload<>(&QLineEdit::clear));
         QObject::connect(PBLogOutAdmin, &QPushButton::clicked, LWAdmin, qOverload<>(&QListWidget::clear));
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -358,7 +347,6 @@ public:
         PBCreateNewUser->setText(QCoreApplication::translate("MainWindow", "Create New User", nullptr));
         label_15->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Full Nmar</span></p></body></html>", nullptr));
         label_17->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">User Name</span></p></body></html>", nullptr));
-        label_18->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">AccountNumber</span></p></body></html>", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(admin), QCoreApplication::translate("MainWindow", "admin", nullptr));
     } // retranslateUi
 

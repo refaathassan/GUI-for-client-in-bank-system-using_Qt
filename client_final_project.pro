@@ -20,7 +20,8 @@ SOURCES += \
     tcpsocket.cpp \
     transferamounthandler.cpp \
     viewaccountbalancehandler.cpp \
-    viewdatabasehandler.cpp
+    viewdatabasehandler.cpp \
+    viewtransectionhistoryhandler.cpp
 
 HEADERS += \
     adduserhandler.h \
@@ -33,7 +34,8 @@ HEADERS += \
     tcpsocket.h \
     transferamounthandler.h \
     viewaccountbalancehandler.h \
-    viewdatabasehandler.h
+    viewdatabasehandler.h \
+    viewtransectionhistoryhandler.h
 
 FORMS += \
     mainwindow.ui

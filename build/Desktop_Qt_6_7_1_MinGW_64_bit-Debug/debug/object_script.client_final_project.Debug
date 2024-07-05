@@ -10,6 +10,7 @@ debug/tcpsocket.o
 debug/transferamounthandler.o
 debug/viewaccountbalancehandler.o
 debug/viewdatabasehandler.o
+debug/viewtransectionhistoryhandler.o
 debug/moc_adduserhandler.o
 debug/moc_deletehandler.o
 debug/moc_getacoutnnumberhandler.o
@@ -21,3 +22,4 @@ debug/moc_tcpsocket.o
 debug/moc_transferamounthandler.o
 debug/moc_viewaccountbalancehandler.o
 debug/moc_viewdatabasehandler.o
+debug/moc_viewtransectionhistoryhandler.o

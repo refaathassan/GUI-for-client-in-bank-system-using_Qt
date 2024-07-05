@@ -47,7 +47,8 @@ constexpr auto qt_meta_stringdata_CLASSHandlerENDCLASS = QtMocHelpers::stringDat
     "deleteuser",
     "adduser",
     "maketransaction",
-    "transferamount"
+    "transferamount",
+    "viewtransactionhistory"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -60,22 +61,23 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSHandlerENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       8,       // signalCount
+       9,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    2,   62,    2, 0x06,    1 /* Public */,
-       5,    1,   67,    2, 0x06,    4 /* Public */,
-       7,    1,   70,    2, 0x06,    6 /* Public */,
-       8,    1,   73,    2, 0x06,    8 /* Public */,
-       9,    1,   76,    2, 0x06,   10 /* Public */,
-      10,    1,   79,    2, 0x06,   12 /* Public */,
-      11,    1,   82,    2, 0x06,   14 /* Public */,
-      12,    1,   85,    2, 0x06,   16 /* Public */,
+       1,    2,   68,    2, 0x06,    1 /* Public */,
+       5,    1,   73,    2, 0x06,    4 /* Public */,
+       7,    1,   76,    2, 0x06,    6 /* Public */,
+       8,    1,   79,    2, 0x06,    8 /* Public */,
+       9,    1,   82,    2, 0x06,   10 /* Public */,
+      10,    1,   85,    2, 0x06,   12 /* Public */,
+      11,    1,   88,    2, 0x06,   14 /* Public */,
+      12,    1,   91,    2, 0x06,   16 /* Public */,
+      13,    1,   94,    2, 0x06,   18 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool, QMetaType::Bool,    3,    4,
@@ -86,6 +88,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSHandlerENDCLASS[] = {
     QMetaType::Void, QMetaType::QString,    6,
     QMetaType::Void, QMetaType::QString,    6,
     QMetaType::Void, QMetaType::QString,    6,
+    QMetaType::Void, QMetaType::QStringList,    6,
 
        0        // eod
 };
@@ -123,7 +126,10 @@ Q_CONSTINIT const QMetaObject Handler::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QString, std::false_type>,
         // method 'transferamount'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QString, std::false_type>
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        // method 'viewtransactionhistory'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QStringList, std::false_type>
     >,
     nullptr
 } };
@@ -142,6 +148,7 @@ void Handler::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 5: _t->adduser((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 6: _t->maketransaction((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 7: _t->transferamount((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 8: _t->viewtransactionhistory((*reinterpret_cast< std::add_pointer_t<QStringList>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -202,6 +209,13 @@ void Handler::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
                 return;
             }
         }
+        {
+            using _t = void (Handler::*)(QStringList );
+            if (_t _q_method = &Handler::viewtransactionhistory; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 8;
+                return;
+            }
+        }
     }
 }
 
@@ -224,13 +238,13 @@ int Handler::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 9)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }
@@ -289,5 +303,12 @@ void Handler::transferamount(QString _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 7, _a);
+}
+
+// SIGNAL 8
+void Handler::viewtransactionhistory(QStringList _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 8, _a);
 }
 QT_WARNING_POP

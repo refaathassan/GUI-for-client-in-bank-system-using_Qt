@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="logging">
      <attribute name="title">
@@ -659,34 +659,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
        <rect>
         <x>530</x>
         <y>60</y>
-        <width>201</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_18">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>120</y>
-        <width>161</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 16pt &quot;Segoe UI&quot;;
-color: rgb(0, 0, 0);
-background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;AccountNumber&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="LECreateNewUserAccountNumber">
-      <property name="geometry">
-       <rect>
-        <x>530</x>
-        <y>121</y>
         <width>201</width>
         <height>20</height>
        </rect>
