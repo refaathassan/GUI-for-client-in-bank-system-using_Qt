@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>906</width>
-    <height>644</height>
+    <width>990</width>
+    <height>723</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>871</width>
-      <height>591</height>
+      <width>961</width>
+      <height>651</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -349,7 +349,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
      <widget class="QPushButton" name="PBLogOutAdmin">
       <property name="geometry">
        <rect>
-        <x>740</x>
+        <x>810</x>
         <y>10</y>
         <width>101</width>
         <height>31</height>
@@ -375,9 +375,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
      <widget class="QPushButton" name="PBGetAccountNumberadmin">
       <property name="geometry">
        <rect>
-        <x>360</x>
-        <y>510</y>
-        <width>371</width>
+        <x>60</x>
+        <y>580</y>
+        <width>271</width>
         <height>31</height>
        </rect>
       </property>
@@ -392,7 +392,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>400</y>
+        <y>550</y>
         <width>161</width>
         <height>21</height>
        </rect>
@@ -410,7 +410,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>530</x>
-        <y>401</y>
+        <y>551</y>
         <width>201</width>
         <height>20</height>
        </rect>
@@ -420,7 +420,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>430</y>
+        <y>580</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -435,9 +435,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
      <widget class="QLineEdit" name="LEGetAccountNumberadmin">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>480</y>
-        <width>201</width>
+        <x>170</x>
+        <y>550</y>
+        <width>151</width>
         <height>20</height>
        </rect>
       </property>
@@ -445,9 +445,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>360</x>
-        <y>479</y>
-        <width>161</width>
+        <x>60</x>
+        <y>550</y>
+        <width>101</width>
         <height>21</height>
        </rect>
       </property>
@@ -464,7 +464,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>350</y>
+        <y>500</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -480,7 +480,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>319</y>
+        <y>469</y>
         <width>161</width>
         <height>21</height>
        </rect>
@@ -498,7 +498,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>530</x>
-        <y>320</y>
+        <y>470</y>
         <width>201</width>
         <height>20</height>
        </rect>
@@ -524,7 +524,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>270</y>
+        <y>420</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -540,7 +540,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>240</y>
+        <y>390</y>
         <width>161</width>
         <height>21</height>
        </rect>
@@ -558,7 +558,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>530</x>
-        <y>241</y>
+        <y>391</y>
         <width>201</width>
         <height>20</height>
        </rect>
@@ -568,7 +568,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>530</x>
-        <y>91</y>
+        <y>301</y>
         <width>201</width>
         <height>20</height>
        </rect>
@@ -578,7 +578,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>90</y>
+        <y>300</y>
         <width>161</width>
         <height>21</height>
        </rect>
@@ -596,7 +596,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>190</y>
+        <y>340</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -612,7 +612,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>30</y>
+        <y>240</y>
         <width>161</width>
         <height>21</height>
        </rect>
@@ -630,7 +630,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>530</x>
-        <y>30</y>
+        <y>240</y>
         <width>201</width>
         <height>20</height>
        </rect>
@@ -640,7 +640,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>60</y>
+        <y>270</y>
         <width>161</width>
         <height>21</height>
        </rect>
@@ -658,19 +658,183 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>530</x>
-        <y>60</y>
+        <y>270</y>
         <width>201</width>
         <height>20</height>
        </rect>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QLabel" name="label_18">
       <property name="geometry">
        <rect>
-        <x>600</x>
-        <y>150</y>
-        <width>131</width>
+        <x>0</x>
+        <y>20</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 16pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Resp:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>70</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 16pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Password&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="LEPBUpdateNewUser">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>40</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="LEUpdateNewUserPassword">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>71</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="PBUpdateNewUser">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>170</y>
+        <width>371</width>
         <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 14pt &quot;Segoe UI&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Update User</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>40</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 16pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;User Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="LEPBUpdateNewUserName">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>10</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_21">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>10</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 16pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Full Nmar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_22">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>99</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 16pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;balance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="LEUpdateNewUserBalance">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>100</y>
+        <width>201</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_38">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>140</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 16pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y2:0.665, stop:0 rgba(0, 0, 0, 255), stop:0.886364 rgba(62, 164, 255, 255));</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;account number of user&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="LEUpdateaccoutnnumber">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>140</y>
+        <width>201</width>
+        <height>20</height>
        </rect>
       </property>
      </widget>
@@ -682,7 +846,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>906</width>
+     <width>990</width>
      <height>22</height>
     </rect>
    </property>

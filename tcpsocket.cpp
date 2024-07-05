@@ -17,6 +17,7 @@ TCPSocket::TCPSocket(QObject *parent)
     PRU7=new MakeTransactionHandler();
     PRU8=new TransferAmountHandler();
     PRU9=new ViewTransectionHistoryHandler();
+    PRU10=new UpdateUserHandler();
     PRU1->SetNextHandler(PRU2);
     PRU2->SetNextHandler(PRU3);
     PRU3->SetNextHandler(PRU4);
@@ -25,6 +26,7 @@ TCPSocket::TCPSocket(QObject *parent)
     PRU6->SetNextHandler(PRU7);
     PRU7->SetNextHandler(PRU8);
     PRU8->SetNextHandler(PRU9);
+    PRU9->SetNextHandler(PRU10);
 }
 
 
@@ -109,6 +111,10 @@ Handler *TCPSocket::GetHandler8()
 Handler *TCPSocket::GetHandler9()
 {
     return PRU9;
+}
+Handler *TCPSocket::GetHandler10()
+{
+    return PRU10;
 }
 void TCPSocket::OnConnect()
 {

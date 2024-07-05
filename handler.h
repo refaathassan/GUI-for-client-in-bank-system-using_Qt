@@ -24,7 +24,7 @@ signals:
     void maketransaction(QString massage);
     void transferamount(QString massage);
     void viewtransactionhistory(QStringList massage);
-
+    void updateuser(QString massage);
 };
 
 #endif // HANDLER_H

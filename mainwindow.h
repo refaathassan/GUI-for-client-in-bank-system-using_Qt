@@ -31,6 +31,7 @@ public:
     void OnMakeTransaction(QString massage);
     void OnTransferAmount(QString massage);
     void OnViewTransactionHistory(QStringList massage);
+    void OnUpdateUser(QString massage);
 
     bool  isAlphabetic(const QString &str, QString str1);
     ~MainWindow();
@@ -62,6 +63,8 @@ private slots:
     void on_PBViewTransactionHistoryUser_clicked();
 
     void on_PBViewTransactionHistoryAdmin_clicked();
+
+    void on_PBUpdateNewUser_clicked();
 
 private:
     Ui::MainWindow *ui;

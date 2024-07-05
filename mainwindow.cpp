@@ -19,11 +19,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(handler.GetHandler7(),&Handler::maketransaction,this,&MainWindow::OnMakeTransaction);
     connect(handler.GetHandler8(),&Handler::transferamount,this,&MainWindow::OnTransferAmount);
     connect(handler.GetHandler9(),&Handler::viewtransactionhistory,this,&MainWindow::OnViewTransactionHistory);
+    connect(handler.GetHandler10(),&Handler::updateuser,this,&MainWindow::OnUpdateUser);
 
     handler.MakeConnect("192.168.1.9",1234);
-    QStringList items;
-    items <<"admin"<<"user";
-    ui->comboBox->addItems(items);
     ui->tabWidget->setTabEnabled(0,true);
     ui->tabWidget->setTabEnabled(1,false);
     ui->tabWidget->setTabEnabled(2,false);
@@ -198,6 +196,12 @@ void MainWindow::OnViewTransactionHistory(QStringList massage)
         ui->LWAdmin->addItems(massage);
     }
 }
+
+void MainWindow::OnUpdateUser(QString massage)
+{
+    ui->LWAdmin->addItem(massage);
+}
+
 void MainWindow::OnTriggerDe(QAbstractSocket::SocketState socketState)
 {
 
@@ -324,7 +328,7 @@ void MainWindow::on_PBCreateNewUser_clicked()
             news["password"]=ui->LECreateNewUserPassword->text();
             if(news["password"].toString()!="")
             {
-                news["type"]=ui->comboBox->currentText();
+                news["type"]="user";
                 handler.WriteToSocket(news);
             }
             else
@@ -372,12 +376,21 @@ void MainWindow::on_PBMakeTransactionUser_clicked()
     {
         // Conversion to integer
         int amount = inputText.toInt();
-
-        // Proceed with your logic here, e.g., send 'amount' over the network
-        QJsonObject news;
-        news["Request"] = "MakeTransaction";
-        news["amount"] = amount;
-        handler.WriteToSocket(news);
+        if(amount!=0)
+        {
+            // Proceed with your logic here, e.g., send 'amount' over the network
+            QJsonObject news;
+            news["Request"] = "MakeTransaction";
+            news["amount"] = amount;
+            handler.WriteToSocket(news);
+        }
+        else
+        {
+            // Handle case where input is not a valid integer
+            ui->LWUser->addItem("Please enter a valid integer amount.");
+            ui->LEMakeTransactionUser->clear(); // Optionally clear the line edit
+            ui->LEMakeTransactionUser->setFocus(); // Optionally set focus back to the line edit
+        }
     }
     else
     {
@@ -409,13 +422,23 @@ void MainWindow::on_PBTransferAmountUser_clicked()
         {
             // Conversion to integer
             int amount = inputText2.toInt();
+            if(amount!=0)
+            {
+                // Proceed with your logic here, e.g., send 'amount' over the network
+                QJsonObject news;
+                news["Request"] = "TransferAmount";
+                news["amount"] = amount;
+                news["accountnumber"] = inputText1;
+                handler.WriteToSocket(news);
+            }
+            else
+            {
+                // Handle case where input is not a valid integer
+                ui->LWUser->addItem("Please enter a valid integer amount.");
 
-            // Proceed with your logic here, e.g., send 'amount' over the network
-            QJsonObject news;
-            news["Request"] = "TransferAmount";
-            news["amount"] = amount;
-            news["accountnumber"] = inputText1;
-            handler.WriteToSocket(news);
+                ui->LETransferAmountUserAmount->clear(); // Optionally clear the line edit
+                ui->LETransferAmountUserAmount->setFocus();
+            }
         }
         else
         {
@@ -458,3 +481,63 @@ bool  MainWindow::isAlphabetic(const QString &str, QString str1) {
     QRegularExpression regex(str1); // Regular expression to match alphabetic characters only
     return regex.match(str).hasMatch();
 }
+
+void MainWindow::on_PBUpdateNewUser_clicked()
+{
+    ui->PBUpdateNewUser->setFocus();
+    QJsonObject news;
+    QString inputText = ui->LEUpdateaccoutnnumber->text();
+    QString inputText2 = ui->LEUpdateNewUserBalance->text();
+    QIntValidator validator;
+    int pos = 0;
+    QValidator::State state = validator.validate(inputText, pos);
+    QValidator::State state2 = validator.validate(inputText2, pos);
+    if ((state == QValidator::Acceptable)&&(ui->LEUpdateaccoutnnumber->text()!=""))
+    {
+        news["Request"]="UpdateUser";
+        news["accountnumber"]=ui->LEUpdateaccoutnnumber->text();
+        if ((state2 == QValidator::Acceptable||ui->LEUpdateNewUserBalance->text()==""))
+        {
+            news["balance"]=ui->LEUpdateNewUserBalance->text();
+            if(isAlphabetic(ui->LEPBUpdateNewUser->text(),"^[a-zA-Z]+$")||ui->LEPBUpdateNewUser->text()=="")
+            {
+                news["username"]=ui->LEPBUpdateNewUser->text();
+
+                if(isAlphabetic(ui->LEPBUpdateNewUserName->text(),"^[a-zA-Z]+$")||ui->LEPBUpdateNewUserName->text()=="")
+                {
+                    news["fullname"]=ui->LEPBUpdateNewUserName->text();
+                    news["password"]=ui->LEUpdateNewUserPassword->text();
+                    news["type"]="user";
+                    handler.WriteToSocket(news);
+                }
+                else
+                {
+                    // Handle case where input is not a valid integer
+                    ui->LWAdmin->addItem("Please enter a valid full name .");
+                    ui->LEPBUpdateNewUserName->clear(); // Optionally clear the line edit
+                    ui->LEPBUpdateNewUserName->setFocus(); // Optionally set focus back to the line edit
+                }
+            }
+            else
+            {
+                ui->LWAdmin->addItem("Please enter a valid account user name .");
+                ui->LEPBUpdateNewUser->clear(); // Optionally clear the line edit
+                ui->LEPBUpdateNewUser->setFocus(); // Optionally set focus back to the line edit
+            }
+        }
+        else
+        {
+            // Handle case where input is not a valid integer
+            ui->LWAdmin->addItem("Please enter a valid balance .");
+            ui->LEUpdateNewUserBalance->clear(); // Optionally clear the line edit
+            ui->LEUpdateNewUserBalance->setFocus(); // Optionally set focus back to the line edit
+        }
+    }
+    else
+    {
+        ui->LWAdmin->addItem("Please enter a valid account number.");
+        ui->LEUpdateaccoutnnumber->clear(); // Optionally clear the line edit
+        ui->LEUpdateaccoutnnumber->setFocus(); // Optionally set focus back to the line edit
+    }
+}
+

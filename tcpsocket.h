@@ -14,6 +14,7 @@
 #include "maketransactionhandler.h"
 #include "transferamounthandler.h"
 #include "viewtransectionhistoryhandler.h"
+#include "updateuserhandler.h"
 
 class TCPSocket : public QObject
 {
@@ -32,6 +33,7 @@ public:
     Handler * GetHandler7(void);
     Handler * GetHandler8(void);
     Handler * GetHandler9(void);
+    Handler * GetHandler10(void);
 private:
     QString ip;
     qint32 port;
@@ -45,6 +47,7 @@ private:
     Handler *PRU7;
     Handler *PRU8;
     Handler *PRU9;
+    Handler *PRU10;
     void OnConnect(void);
     void OnDisconnect(void);
     void OnError(QAbstractSocket::SocketError socketError);

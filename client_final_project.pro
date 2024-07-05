@@ -19,6 +19,7 @@ SOURCES += \
     maketransactionhandler.cpp \
     tcpsocket.cpp \
     transferamounthandler.cpp \
+    updateuserhandler.cpp \
     viewaccountbalancehandler.cpp \
     viewdatabasehandler.cpp \
     viewtransectionhistoryhandler.cpp
@@ -33,6 +34,7 @@ HEADERS += \
     maketransactionhandler.h \
     tcpsocket.h \
     transferamounthandler.h \
+    updateuserhandler.h \
     viewaccountbalancehandler.h \
     viewdatabasehandler.h \
     viewtransectionhistoryhandler.h

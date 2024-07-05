@@ -8,6 +8,7 @@ debug/mainwindow.o
 debug/maketransactionhandler.o
 debug/tcpsocket.o
 debug/transferamounthandler.o
+debug/updateuserhandler.o
 debug/viewaccountbalancehandler.o
 debug/viewdatabasehandler.o
 debug/viewtransectionhistoryhandler.o
@@ -20,6 +21,7 @@ debug/moc_mainwindow.o
 debug/moc_maketransactionhandler.o
 debug/moc_tcpsocket.o
 debug/moc_transferamounthandler.o
+debug/moc_updateuserhandler.o
 debug/moc_viewaccountbalancehandler.o
 debug/moc_viewdatabasehandler.o
 debug/moc_viewtransectionhistoryhandler.o
