@@ -27,6 +27,10 @@ TCPSocket::TCPSocket(QObject *parent)
     PRU7->SetNextHandler(PRU8);
     PRU8->SetNextHandler(PRU9);
     PRU9->SetNextHandler(PRU10);
+
+     key = "abcdefghijklmnop"; // 16 bytes for AES 128
+     iv = "1234567890123456";  // 16 bytes IV
+     privatek =QApplication::applicationDirPath()+"//private.pem";
 }
 
 
@@ -63,17 +67,6 @@ void TCPSocket::MakeDisconnect()
     }
 }
 
-void TCPSocket::WriteToSocket(QJsonObject json)
-{
-    if(socket.isOpen())
-    {
-        QByteArray byte=QJsonDocument(json).toJson(QJsonDocument::Compact);
-        //QString str=QString("JsonSize:%1/").arg(byte.size());
-        //byte.prepend(str.toUtf8());
-        socket.write(byte);
-    }
-
-}
 
 Handler *TCPSocket::GetHandler1()
 {
@@ -140,9 +133,11 @@ void TCPSocket::OnTrigger(QAbstractSocket::SocketState socketState)
     emit Trigger(socketState);
 }
 
+
 void TCPSocket::OnReadyRead()
 {
     QByteArray arr= socket.readAll();
+   // QByteArray dec_arr=decryptAES(arr);
     // Parse the JSON response
     //QJsonParseError jsonError;
     //QJsonDocument jsonResponse = QJsonDocument::fromJson(arr);
@@ -169,4 +164,78 @@ void TCPSocket::OnReadyRead()
     //QString data=QString(arr);
 
 
+}
+
+void TCPSocket::WriteToSocket(QJsonObject json)
+{
+    if(socket.isOpen())
+    {
+        QByteArray byte=QJsonDocument(json).toJson(QJsonDocument::Compact);
+        QByteArray enc_byte=encryptAndSign(byte,key,iv,privatek.toUtf8());
+        //QString str=QString("JsonSize:%1/").arg(byte.size());
+        //byte.prepend(str.toUtf8());
+        socket.write(enc_byte);
+    }
+
+}
+QByteArray TCPSocket::encryptAndSign(const QByteArray &originalData, const QByteArray &key, const QByteArray &iv, const QByteArray &rsaPrivateKeyFile) {
+    // Sign the original data
+    QByteArray signature = signData(originalData, rsaPrivateKeyFile);
+    if (signature.isEmpty()) {
+        qDebug() << "Failed to sign data";
+        return QByteArray();
+    }
+
+    // Append the signature to the original data
+    QByteArray dataToEncrypt = originalData + signature;
+
+    // Encrypt the combined data (original data + signature)
+    QByteArray encrypted = QAESEncryption::Crypt(QAESEncryption::AES_128, QAESEncryption::CBC, dataToEncrypt, key, iv, QAESEncryption::PKCS7);
+
+    // Convert encrypted data to base64 for easy storage and transport
+    return encrypted.toBase64();
+}
+QByteArray TCPSocket::signData(const QByteArray &data, const QByteArray &rsaPrivateKeyFile) {
+    QFile file(rsaPrivateKeyFile);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Failed to open private key file";
+        return QByteArray();
+    }
+
+    QByteArray privateKeyData = file.readAll();
+    file.close();
+
+    const char *privateKey = privateKeyData.constData();
+
+    // Read RSA private key
+    BIO *bio = BIO_new_mem_buf((void*)privateKey, -1);
+    if (!bio) {
+        qDebug() << "Failed to create BIO for private key";
+        return QByteArray();
+    }
+
+    RSA *rsa = PEM_read_bio_RSAPrivateKey(bio, NULL, NULL, NULL);
+    if (!rsa) {
+        qDebug() << "Failed to load RSA private key";
+        BIO_free(bio);
+        return QByteArray();
+    }
+
+    // Sign data
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256((const unsigned char *)data.constData(), data.length(), hash);
+
+    unsigned char signature[RSA_size(rsa)];
+    unsigned int signatureLength;
+    if (!RSA_sign(NID_sha256, hash, SHA256_DIGEST_LENGTH, signature, &signatureLength, rsa)) {
+        qDebug() << "Failed to sign data";
+        RSA_free(rsa);
+        BIO_free(bio);
+        return QByteArray();
+    }
+
+    RSA_free(rsa);
+    BIO_free(bio);
+
+    return QByteArray((const char *)signature, signatureLength);
 }

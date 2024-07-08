@@ -247,7 +247,19 @@ void MainWindow::on_PBGetAccountNumberadmin_clicked()
     QJsonObject news;
     news["Request"]="GetAccountNumber";
     news["username"]=ui->LEGetAccountNumberadmin->text();
-    handler.WriteToSocket(news);
+
+    if(isAlphabetic(ui->LEGetAccountNumberadmin->text(),"^[a-zA-Z]+$")&&ui->LEGetAccountNumberadmin->text()!="")
+    {
+            handler.WriteToSocket(news);
+            ui->LEGetAccountNumberadmin->clear();
+    }
+    else
+    {
+            // Handle case where input is not a valid integer
+            ui->LWAdmin->addItem("Please enter a valid user name string without space.");
+            ui->LEGetAccountNumberadmin->clear(); // Optionally clear the line edit
+            ui->LEGetAccountNumberadmin->setFocus(); // Optionally set focus back to the line edit
+    }
 }
 
 
@@ -262,11 +274,34 @@ void MainWindow::on_PBViewAccountBalanceUser_clicked()
 
 void MainWindow::on_PBViewAccountBalanceAdmin_clicked()
 {
-    ui->PBViewAccountBalanceAdmin->setFocus();
-    QJsonObject news;
-    news["Request"]="ViewAccountBalance";
-    news["accountnumber"]=ui->LEGetAccountNumberadmin->text();
-    handler.WriteToSocket(news);
+
+    ui->PBDeleteUserAdmin->setFocus();
+    // QJsonObject news;
+    // news["Request"]="MakeTransaction";
+    // news["amount"]=ui->LEMakeTransactionUser->text().toInt();
+    // handler.WriteToSocket(news);
+    QString inputText = ui->LEViewAccountBalanceAdmin->text();
+
+    // Validate input as integer using QIntValidator
+    QIntValidator validator;
+    int pos = 0; // This will store the position of the first non-numeric character
+    QValidator::State state = validator.validate(inputText, pos);
+
+    if ((state == QValidator::Acceptable)&&(ui->LEViewAccountBalanceAdmin->text()!=""))
+    {
+        QJsonObject news;
+        news["Request"]="ViewAccountBalance";
+        news["accountnumber"]=ui->LEViewAccountBalanceAdmin->text();
+        handler.WriteToSocket(news);
+        ui->LEViewAccountBalanceAdmin->clear();
+    }
+    else
+    {
+        // Handle case where input is not a valid integer
+        ui->LWAdmin->addItem("Please enter a valid integer accountnumber.");
+        ui->LEViewAccountBalanceAdmin->clear(); // Optionally clear the line edit
+        ui->LEViewAccountBalanceAdmin->setFocus(); // Optionally set focus back to the line edit
+    }
 }
 
 
@@ -293,16 +328,17 @@ void MainWindow::on_PBDeleteUserAdmin_clicked()
     int pos = 0; // This will store the position of the first non-numeric character
     QValidator::State state = validator.validate(inputText, pos);
 
-    if ((state == QValidator::Acceptable)&&(ui->LEDeleteUserAdmin->text()!=""))
+    if ((state == QValidator::Acceptable)&&(inputText!=""))
     {
         // Conversion to integer
-        int amount = inputText.toInt();
+        //int amount = inputText.toInt();
 
         // Proceed with your logic here, e.g., send 'amount' over the network
         QJsonObject news;
-        news["Request"] = "MakeTransaction";
-        news["amount"] = amount;
+        news["Request"] = "DeleteUser";
+        news["accountnumber"] =inputText ;
         handler.WriteToSocket(news);
+        ui->LEDeleteUserAdmin->clear();
     }
     else
     {
@@ -330,6 +366,9 @@ void MainWindow::on_PBCreateNewUser_clicked()
             {
                 news["type"]="user";
                 handler.WriteToSocket(news);
+                ui->LECreateNewUserPassword->clear();
+                ui->LEPBCreateNewUserName->clear();
+                ui->LECreateNewUserLogName->clear();
             }
             else
             {
@@ -372,8 +411,9 @@ void MainWindow::on_PBMakeTransactionUser_clicked()
     int pos = 0; // This will store the position of the first non-numeric character
     QValidator::State state = validator.validate(inputText, pos);
 
-    if ((state == QValidator::Acceptable)&&(ui->LEMakeTransactionUser->text()!=""))
+    if ((state == QValidator::Acceptable)&&(inputText!=""))
     {
+
         // Conversion to integer
         int amount = inputText.toInt();
         if(amount!=0)
@@ -383,6 +423,7 @@ void MainWindow::on_PBMakeTransactionUser_clicked()
             news["Request"] = "MakeTransaction";
             news["amount"] = amount;
             handler.WriteToSocket(news);
+            ui->LEMakeTransactionUser->clear();
         }
         else
         {
@@ -422,7 +463,7 @@ void MainWindow::on_PBTransferAmountUser_clicked()
         {
             // Conversion to integer
             int amount = inputText2.toInt();
-            if(amount!=0)
+            if(amount>0)
             {
                 // Proceed with your logic here, e.g., send 'amount' over the network
                 QJsonObject news;
@@ -430,6 +471,8 @@ void MainWindow::on_PBTransferAmountUser_clicked()
                 news["amount"] = amount;
                 news["accountnumber"] = inputText1;
                 handler.WriteToSocket(news);
+                ui->LETransferAmountUserAmount->clear();
+                ui->LETransferAmountUserAcountNumber->clear();
             }
             else
             {
@@ -473,9 +516,10 @@ void MainWindow::on_PBViewTransactionHistoryAdmin_clicked()
     ui->PBDeleteUserAdmin->setFocus();
     QJsonObject news;
     news["Request"]="ViewTransactionHistory";
-    news["accountnumber"]=ui->LEDeleteUserAdmin->text();
+    news["accountnumber"]=ui->LEViewTransactionHistoryAdmin->text();
     news["count"]=5;
     handler.WriteToSocket(news);
+    ui->LEViewTransactionHistoryAdmin->clear();
 }
 bool  MainWindow::isAlphabetic(const QString &str, QString str1) {
     QRegularExpression regex(str1); // Regular expression to match alphabetic characters only
@@ -509,6 +553,10 @@ void MainWindow::on_PBUpdateNewUser_clicked()
                     news["password"]=ui->LEUpdateNewUserPassword->text();
                     news["type"]="user";
                     handler.WriteToSocket(news);
+                    ui->LEPBUpdateNewUserName->clear();
+                    ui->LEPBUpdateNewUser->clear();
+                    ui->LEUpdateNewUserBalance->clear();
+                    ui->LEUpdateaccoutnnumber->clear();
                 }
                 else
                 {

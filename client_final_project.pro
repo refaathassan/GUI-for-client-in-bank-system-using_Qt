@@ -3,6 +3,10 @@ QT       += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+INCLUDEPATH += "C:/Program Files/OpenSSL-Win64/include"
+
+# Path to OpenSSL libraries directory
+LIBS += -L"C:/Program Files/OpenSSL-Win64/lib/VC/x64/MD" -lssl -lcrypto
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -22,7 +26,8 @@ SOURCES += \
     updateuserhandler.cpp \
     viewaccountbalancehandler.cpp \
     viewdatabasehandler.cpp \
-    viewtransectionhistoryhandler.cpp
+    viewtransectionhistoryhandler.cpp \
+    qaesencryption.cpp
 
 HEADERS += \
     adduserhandler.h \
@@ -37,7 +42,12 @@ HEADERS += \
     updateuserhandler.h \
     viewaccountbalancehandler.h \
     viewdatabasehandler.h \
-    viewtransectionhistoryhandler.h
+    viewtransectionhistoryhandler.h \
+    aesni/aesni-key-init.h \
+    qaesencryption.h \
+    aesni/aesni-key-exp.h \
+    aesni/aesni-enc-ecb.h \
+    aesni/aesni-enc-cbc.h
 
 FORMS += \
     mainwindow.ui

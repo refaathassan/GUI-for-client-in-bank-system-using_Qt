@@ -5,6 +5,15 @@
 #include <QTcpSocket>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QCryptographicHash>
+#include <QByteArray>
+#include <QFile>
+#include <QApplication>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
+#include "qaesencryption.h"
+
 #include "loghandler.h"
 #include "getacoutnnumberhandler.h"
 #include "viewaccountbalancehandler.h"
@@ -34,6 +43,9 @@ public:
     Handler * GetHandler8(void);
     Handler * GetHandler9(void);
     Handler * GetHandler10(void);
+
+    QByteArray encryptAndSign(const QByteArray &originalData, const QByteArray &key, const QByteArray &iv, const QByteArray &rsaPrivateKeyFile);
+    QByteArray signData(const QByteArray &data, const QByteArray &rsaPrivateKeyFile);
 private:
     QString ip;
     qint32 port;
@@ -48,6 +60,9 @@ private:
     Handler *PRU8;
     Handler *PRU9;
     Handler *PRU10;
+    QByteArray key;
+    QByteArray iv;
+    QString privatek;
     void OnConnect(void);
     void OnDisconnect(void);
     void OnError(QAbstractSocket::SocketError socketError);

@@ -12,17 +12,26 @@ void ViewTransectionHistoryHandler::Handling(QByteArray jso)
     QJsonObject json=js.object();
     if(json["Request"].toString()=="ViewTransactionHistory")
     {
-        QJsonArray jsonar=json["Response"].toArray();
-        for(auto ele:jsonar)
-        {
-            QJsonObject jsons=ele.toObject();
-            stringList<<QString("amount : %1").arg(jsons["amount"].toInt());
-            stringList<<QString("date: %1").arg(jsons["date"].toString());
-            stringList<<QString("descraption: %1").arg(jsons["descraption"].toString());
-            stringList<<"--------------------------------------------------";
+            QJsonValue responseValue = json.value("Response");
+            if (responseValue.isArray())
+            {
+                QJsonArray jsonar=json["Response"].toArray();
+                for(auto ele:jsonar)
+                {
+                    QJsonObject jsons=ele.toObject();
+                    stringList<<QString("amount : %1").arg(jsons["amount"].toInt());
+                    stringList<<QString("date: %1").arg(jsons["date"].toString());
+                    stringList<<QString("descraption: %1").arg(jsons["descraption"].toString());
+                    stringList<<"--------------------------------------------------";
 
-        }
-        emit viewtransactionhistory(stringList);
+                }
+
+            }
+            else if (responseValue.isString())
+            {
+                stringList<<responseValue.toString();
+            }
+            emit viewtransactionhistory(stringList);
     }
     else
     {
