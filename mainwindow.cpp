@@ -25,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->setTabEnabled(0,true);
     ui->tabWidget->setTabEnabled(1,false);
     ui->tabWidget->setTabEnabled(2,false);
+
+    QStringList items;
+    items <<"0"<<"1"<<"2"<<"3"<<"4"<<"5";
+    ui->CBCount->addItems(items);
+    ui->CBCount_2->addItems(items);
 }
 
 MainWindow::~MainWindow()
@@ -276,10 +281,6 @@ void MainWindow::on_PBViewAccountBalanceAdmin_clicked()
 {
 
     ui->PBDeleteUserAdmin->setFocus();
-    // QJsonObject news;
-    // news["Request"]="MakeTransaction";
-    // news["amount"]=ui->LEMakeTransactionUser->text().toInt();
-    // handler.WriteToSocket(news);
     QString inputText = ui->LEViewAccountBalanceAdmin->text();
 
     // Validate input as integer using QIntValidator
@@ -359,16 +360,29 @@ void MainWindow::on_PBCreateNewUser_clicked()
     if(isAlphabetic(news["username"].toString(),"^[a-zA-Z]+$")&&news["username"].toString()!="")
     {
         news["fullname"]=ui->LEPBCreateNewUserName->text();
-        if(isAlphabetic(news["fullname"].toString(),"^[a-zA-Z ]+$")&&news["fullname"].toString()!="")
+        if(isAlphabetic(news["fullname"].toString(),"^[a-zA-Z]+$")&&news["fullname"].toString()!="")
         {
             news["password"]=ui->LECreateNewUserPassword->text();
             if(news["password"].toString()!="")
             {
+                if(isAlphabetic(ui->LECreateNewUseremail->text(),"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
+                    &&ui->LECreateNewUseremail->text()!="")
+                {
                 news["type"]="user";
+                news["email"]=ui->LECreateNewUseremail->text();
                 handler.WriteToSocket(news);
                 ui->LECreateNewUserPassword->clear();
                 ui->LEPBCreateNewUserName->clear();
                 ui->LECreateNewUserLogName->clear();
+                ui->LECreateNewUseremail->clear();
+                }
+                else
+                {
+                    // Handle case where input is not a valid integer
+                    ui->LWAdmin->addItem("Please enter a valid email .");
+                    ui->LECreateNewUseremail->clear(); // Optionally clear the line edit
+                    ui->LECreateNewUseremail->setFocus(); // Optionally set focus back to the line edit
+                }
             }
             else
             {
@@ -503,28 +517,44 @@ void MainWindow::on_PBTransferAmountUser_clicked()
 
 void MainWindow::on_PBViewTransactionHistoryUser_clicked()
 {
-    ui->PBDeleteUserAdmin->setFocus();
+    ui->PBViewTransactionHistoryUser->setFocus();
     QJsonObject news;
     news["Request"]="ViewTransactionHistory";
-    news["count"]=5;
+    news["count"]=ui->CBCount_2->currentText().toInt();
     handler.WriteToSocket(news);
 }
 
 
 void MainWindow::on_PBViewTransactionHistoryAdmin_clicked()
 {
-    ui->PBDeleteUserAdmin->setFocus();
-    QJsonObject news;
-    news["Request"]="ViewTransactionHistory";
-    news["accountnumber"]=ui->LEViewTransactionHistoryAdmin->text();
-    news["count"]=5;
-    handler.WriteToSocket(news);
-    ui->LEViewTransactionHistoryAdmin->clear();
+    ui->PBViewTransactionHistoryAdmin->setFocus();
+    QString inputText = ui->LEViewTransactionHistoryAdmin->text();
+
+    // Validate input as integer using QIntValidator
+    QIntValidator validator;
+    int pos = 0; // This will store the position of the first non-numeric character
+    QValidator::State state = validator.validate(inputText, pos);
+
+    if ((state == QValidator::Acceptable)&&(inputText!=""))
+    {
+        // Proceed with your logic here, e.g., send 'amount' over the network
+        QJsonObject news;
+        news["Request"] = "ViewTransactionHistory";
+        news["accountnumber"] =inputText ;
+        news["count"]=ui->CBCount->currentText().toInt();
+        handler.WriteToSocket(news);
+        ui->LEViewTransactionHistoryAdmin->clear();
+    }
+    else
+    {
+        // Handle case where input is not a valid integer
+        ui->LWAdmin->addItem("Please enter a valid integer accountnumber.");
+        ui->LEViewTransactionHistoryAdmin->clear(); // Optionally clear the line edit
+        ui->LEViewTransactionHistoryAdmin->setFocus(); // Optionally set focus back to the line edit
+    }
+
 }
-bool  MainWindow::isAlphabetic(const QString &str, QString str1) {
-    QRegularExpression regex(str1); // Regular expression to match alphabetic characters only
-    return regex.match(str).hasMatch();
-}
+
 
 void MainWindow::on_PBUpdateNewUser_clicked()
 {
@@ -549,14 +579,27 @@ void MainWindow::on_PBUpdateNewUser_clicked()
 
                 if(isAlphabetic(ui->LEPBUpdateNewUserName->text(),"^[a-zA-Z]+$")||ui->LEPBUpdateNewUserName->text()=="")
                 {
-                    news["fullname"]=ui->LEPBUpdateNewUserName->text();
-                    news["password"]=ui->LEUpdateNewUserPassword->text();
-                    news["type"]="user";
-                    handler.WriteToSocket(news);
-                    ui->LEPBUpdateNewUserName->clear();
-                    ui->LEPBUpdateNewUser->clear();
-                    ui->LEUpdateNewUserBalance->clear();
-                    ui->LEUpdateaccoutnnumber->clear();
+                    if(isAlphabetic(ui->LEUpdateemail->text(),"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
+                        ||ui->LEUpdateemail->text()=="")
+                    {
+
+                        news["fullname"]=ui->LEPBUpdateNewUserName->text();
+                        news["password"]=ui->LEUpdateNewUserPassword->text();
+                        news["type"]="user";
+                        news["email"]=ui->LEUpdateemail->text();
+                        handler.WriteToSocket(news);
+                        ui->LEPBUpdateNewUserName->clear();
+                        ui->LEPBUpdateNewUser->clear();
+                        ui->LEUpdateNewUserBalance->clear();
+                        ui->LEUpdateaccoutnnumber->clear();
+                    }
+                    else
+                    {
+                        // Handle case where input is not a valid integer
+                        ui->LWAdmin->addItem("Please enter a valid email .");
+                        ui->LEUpdateemail->clear(); // Optionally clear the line edit
+                        ui->LEUpdateemail->setFocus(); // Optionally set focus back to the line edit
+                    }
                 }
                 else
                 {
@@ -588,4 +631,13 @@ void MainWindow::on_PBUpdateNewUser_clicked()
         ui->LEUpdateaccoutnnumber->setFocus(); // Optionally set focus back to the line edit
     }
 }
+bool  MainWindow::isAlphabetic(const QString &str, QString str1) {
+    QRegularExpression regex(str1); // Regular expression to match alphabetic characters only
+    return regex.match(str).hasMatch();
+}
+bool validateEmailAddress(const QString &text) {
+    QRegularExpression regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
+    QRegularExpressionMatch match = regex.match(text);
 
+    return match.hasMatch();
+}
