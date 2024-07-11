@@ -358,7 +358,7 @@ public:
         LEUpdateaccoutnnumber->setGeometry(QRect(530, 160, 201, 20));
         CBCount = new QComboBox(admin);
         CBCount->setObjectName("CBCount");
-        CBCount->setGeometry(QRect(660, 500, 69, 22));
+        CBCount->setGeometry(QRect(660, 520, 69, 22));
         LECreateNewUseremail = new QLineEdit(admin);
         LECreateNewUseremail->setObjectName("LECreateNewUseremail");
         LECreateNewUseremail->setGeometry(QRect(530, 330, 201, 20));

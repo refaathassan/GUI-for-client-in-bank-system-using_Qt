@@ -852,7 +852,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.0681818, x2:0.744318, y
       <property name="geometry">
        <rect>
         <x>660</x>
-        <y>500</y>
+        <y>520</y>
         <width>69</width>
         <height>22</height>
        </rect>

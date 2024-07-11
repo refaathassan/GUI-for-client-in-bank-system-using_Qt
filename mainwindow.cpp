@@ -40,11 +40,33 @@ MainWindow::~MainWindow()
 void MainWindow::on_PBLog_clicked()
 {
     ui->PBLog->setFocus();
-    QJsonObject news;
-    news["Request"]="Log";
-    news["username"]=ui->LEUserName->text();
-    news["password"]=ui->LEUserPassword->text();
-    handler.WriteToSocket(news);
+    QString inputText1 = ui->LEUserName->text();
+    QString inputText2 = ui->LEUserPassword->text();
+
+    if(isAlphabetic(inputText1,"^[a-zA-Z]+$")&&inputText1.length()>5)
+    {
+        if (inputText2.length()>5)
+        {
+            QJsonObject news;
+            news["Request"]="Log";
+            news["username"]=inputText1;
+            news["password"]=inputText2;
+            handler.WriteToSocket(news);
+        }
+        else
+        {
+            // Handle case where input is not a valid integer
+            ui->LWLogging->addItem("Please enter a valid password");
+            ui->LEUserPassword->clear(); // Optionally clear the line edit
+            ui->LEUserPassword->setFocus();
+        }
+    }
+    else
+    {
+        ui->LWLogging->addItem("Please enter a valid user name");
+        ui->LEUserName->clear(); // Optionally clear the line edit
+        ui->LEUserName->setFocus(); // Optionally set focus back to the line edit
+    }
 }
 
 
@@ -253,7 +275,7 @@ void MainWindow::on_PBGetAccountNumberadmin_clicked()
     news["Request"]="GetAccountNumber";
     news["username"]=ui->LEGetAccountNumberadmin->text();
 
-    if(isAlphabetic(ui->LEGetAccountNumberadmin->text(),"^[a-zA-Z]+$")&&ui->LEGetAccountNumberadmin->text()!="")
+    if(isAlphabetic(ui->LEGetAccountNumberadmin->text(),"^[a-zA-Z]+$")&&ui->LEGetAccountNumberadmin->text().length()>5)
     {
             handler.WriteToSocket(news);
             ui->LEGetAccountNumberadmin->clear();
@@ -318,10 +340,6 @@ void MainWindow::on_PBLogOutAdmin_14_clicked()
 void MainWindow::on_PBDeleteUserAdmin_clicked()
 {
     ui->PBDeleteUserAdmin->setFocus();
-    // QJsonObject news;
-    // news["Request"]="MakeTransaction";
-    // news["amount"]=ui->LEMakeTransactionUser->text().toInt();
-    // handler.WriteToSocket(news);
     QString inputText = ui->LEDeleteUserAdmin->text();
 
     // Validate input as integer using QIntValidator
@@ -331,10 +349,6 @@ void MainWindow::on_PBDeleteUserAdmin_clicked()
 
     if ((state == QValidator::Acceptable)&&(inputText!=""))
     {
-        // Conversion to integer
-        //int amount = inputText.toInt();
-
-        // Proceed with your logic here, e.g., send 'amount' over the network
         QJsonObject news;
         news["Request"] = "DeleteUser";
         news["accountnumber"] =inputText ;
@@ -357,13 +371,13 @@ void MainWindow::on_PBCreateNewUser_clicked()
     QJsonObject news;
     news["Request"]="AddUser";
     news["username"]=ui->LECreateNewUserLogName->text();
-    if(isAlphabetic(news["username"].toString(),"^[a-zA-Z]+$")&&news["username"].toString()!="")
+    if(isAlphabetic(news["username"].toString(),"^[a-zA-Z]+$")&&news["username"].toString().length()>5)
     {
         news["fullname"]=ui->LEPBCreateNewUserName->text();
-        if(isAlphabetic(news["fullname"].toString(),"^[a-zA-Z]+$")&&news["fullname"].toString()!="")
+        if(isAlphabetic(news["fullname"].toString(),"^[a-zA-Z]+$")&&news["fullname"].toString().length()>5)
         {
             news["password"]=ui->LECreateNewUserPassword->text();
-            if(news["password"].toString()!="")
+            if(news["password"].toString().length()>5)
             {
                 if(isAlphabetic(ui->LECreateNewUseremail->text(),"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
                     &&ui->LECreateNewUseremail->text()!="")
@@ -414,10 +428,6 @@ void MainWindow::on_PBCreateNewUser_clicked()
 void MainWindow::on_PBMakeTransactionUser_clicked()
 {
     ui->PBMakeTransactionUser->setFocus();
-    // QJsonObject news;
-    // news["Request"]="MakeTransaction";
-    // news["amount"]=ui->LEMakeTransactionUser->text().toInt();
-    // handler.WriteToSocket(news);
     QString inputText = ui->LEMakeTransactionUser->text();
 
     // Validate input as integer using QIntValidator
@@ -573,25 +583,37 @@ void MainWindow::on_PBUpdateNewUser_clicked()
         if ((state2 == QValidator::Acceptable||ui->LEUpdateNewUserBalance->text()==""))
         {
             news["balance"]=ui->LEUpdateNewUserBalance->text();
-            if(isAlphabetic(ui->LEPBUpdateNewUser->text(),"^[a-zA-Z]+$")||ui->LEPBUpdateNewUser->text()=="")
+            if((isAlphabetic(ui->LEPBUpdateNewUser->text(),"^[a-zA-Z]+$")&&ui->LEPBUpdateNewUser->text().length()>5)
+                      ||ui->LEPBUpdateNewUser->text()=="")
             {
                 news["username"]=ui->LEPBUpdateNewUser->text();
 
-                if(isAlphabetic(ui->LEPBUpdateNewUserName->text(),"^[a-zA-Z]+$")||ui->LEPBUpdateNewUserName->text()=="")
+                if((isAlphabetic(ui->LEPBUpdateNewUserName->text(),"^[a-zA-Z]+$")&&ui->LEPBUpdateNewUserName->text().length()>5)
+                                ||ui->LEPBUpdateNewUserName->text()=="")
                 {
+                    news["fullname"]=ui->LEPBUpdateNewUserName->text();
                     if(isAlphabetic(ui->LEUpdateemail->text(),"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
                         ||ui->LEUpdateemail->text()=="")
                     {
-
-                        news["fullname"]=ui->LEPBUpdateNewUserName->text();
-                        news["password"]=ui->LEUpdateNewUserPassword->text();
-                        news["type"]="user";
                         news["email"]=ui->LEUpdateemail->text();
-                        handler.WriteToSocket(news);
-                        ui->LEPBUpdateNewUserName->clear();
-                        ui->LEPBUpdateNewUser->clear();
-                        ui->LEUpdateNewUserBalance->clear();
-                        ui->LEUpdateaccoutnnumber->clear();
+                        if(ui->LEUpdateNewUserPassword->text().length()>5||ui->LEUpdateNewUserPassword->text()=="")
+                        {
+                            news["password"]=ui->LEUpdateNewUserPassword->text();
+                            news["type"]="user";
+                            handler.WriteToSocket(news);
+                            ui->LEPBUpdateNewUserName->clear();
+                            ui->LEPBUpdateNewUser->clear();
+                            ui->LEUpdateNewUserBalance->clear();
+                            ui->LEUpdateaccoutnnumber->clear();
+                            ui->LEUpdateNewUserPassword->clear();
+                        }
+                        else
+                        {
+                            // Handle case where input is not a valid integer
+                            ui->LWAdmin->addItem("Please enter a valid password .");
+                            ui->LEUpdateNewUserPassword->clear(); // Optionally clear the line edit
+                            ui->LEUpdateNewUserPassword->setFocus(); // Optionally set focus back to the line edit
+                        }
                     }
                     else
                     {
@@ -634,10 +656,4 @@ void MainWindow::on_PBUpdateNewUser_clicked()
 bool  MainWindow::isAlphabetic(const QString &str, QString str1) {
     QRegularExpression regex(str1); // Regular expression to match alphabetic characters only
     return regex.match(str).hasMatch();
-}
-bool validateEmailAddress(const QString &text) {
-    QRegularExpression regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
-    QRegularExpressionMatch match = regex.match(text);
-
-    return match.hasMatch();
 }
