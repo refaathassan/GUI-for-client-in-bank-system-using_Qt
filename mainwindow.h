@@ -5,6 +5,7 @@
 #include <QMetaEnum>
 #include <QIntValidator>
 #include "tcpsocket.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -18,56 +19,58 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
-    void OnConnectDe(void);
-    void OnDisconnectDe(void);
-    void OnErrorDe(QAbstractSocket::SocketError socketError);
-    void OnTriggerDe(QAbstractSocket::SocketState socketState);
-    void OnlogRespose(bool flag,bool admin);
-    void OnGetAcoutnNumberResponse(QString massage);
-    void OnViewAccountBalnce(int massage);
-    void OnViewDataBase(QStringList massage);
-    void OnDeleteUser(QString massage);
-    void OnAddUser(QString massage);
-    void OnMakeTransaction(QString massage);
-    void OnTransferAmount(QString massage);
-    void OnViewTransactionHistory(QStringList massage);
-    void OnUpdateUser(QString massage);
+    void OnConnectDe(void); // Method for connecting
+    void OnDisconnectDe(void); // Method for disconnecting
+    void OnErrorDe(QAbstractSocket::SocketError socketError); // Method for handling errors
+    void OnlogRespose(bool flag, bool admin); // Method for handling log response
+    void OnGetAcoutnNumberResponse(QString massage); // Method for handling get account number response
+    void OnViewAccountBalnce(int massage); // Method for handling view account balance response
+    void OnViewDataBase(QStringList massage); // Method for handling view database response
+    void OnDeleteUser(QString massage); // Method for handling delete user response
+    void OnAddUser(QString massage); // Method for handling add user response
+    void OnMakeTransaction(QString massage); // Method for handling make transaction response
+    void OnTransferAmount(QString massage); // Method for handling transfer amount response
+    void OnViewTransactionHistory(QStringList massage); // Method for handling view transaction history response
+    void OnUpdateUser(QString massage); // Method for handling update user response
 
-    bool  isAlphabetic(const QString &str, QString str1);
+    bool isAlphabetic(const QString &str, QString str1); // Method for checking if string is alphabetic
+
     ~MainWindow();
+
 private slots:
-    void on_PBLog_clicked();
+    void on_PBLog_clicked(); // Slot for log button click
 
-    void on_PBLogOutUser_clicked();
+    void on_PBLogOutUser_clicked(); // Slot for log out user button click
 
-    void on_PBLogOutAdmin_clicked();
+    void on_PBLogOutAdmin_clicked(); // Slot for log out admin button click
 
-    void on_PBGetAccountNumberUser_clicked();
+    void on_PBGetAccountNumberUser_clicked(); // Slot for get account number user button click
 
-    void on_PBGetAccountNumberadmin_clicked();
+    void on_PBGetAccountNumberadmin_clicked(); // Slot for get account number admin button click
 
-    void on_PBViewAccountBalanceUser_clicked();
+    void on_PBViewAccountBalanceUser_clicked(); // Slot for view account balance user button click
 
-    void on_PBViewAccountBalanceAdmin_clicked();
+    void on_PBViewAccountBalanceAdmin_clicked(); // Slot for view account balance admin button click
 
-    void on_PBLogOutAdmin_14_clicked();
+    void on_PBLogOutAdmin_14_clicked(); // Slot for log out admin 14 button click
 
-    void on_PBDeleteUserAdmin_clicked();
+    void on_PBDeleteUserAdmin_clicked(); // Slot for delete user admin button click
 
-    void on_PBCreateNewUser_clicked();
+    void on_PBCreateNewUser_clicked(); // Slot for create new user button click
 
-    void on_PBMakeTransactionUser_clicked();
+    void on_PBMakeTransactionUser_clicked(); // Slot for make transaction user button click
 
-    void on_PBTransferAmountUser_clicked();
+    void on_PBTransferAmountUser_clicked(); // Slot for transfer amount user button click
 
-    void on_PBViewTransactionHistoryUser_clicked();
+    void on_PBViewTransactionHistoryUser_clicked(); // Slot for view transaction history user button click
 
-    void on_PBViewTransactionHistoryAdmin_clicked();
+    void on_PBViewTransactionHistoryAdmin_clicked(); // Slot for view transaction history admin button click
 
-    void on_PBUpdateNewUser_clicked();
+    void on_PBUpdateNewUser_clicked(); // Slot for update new user button click
 
 private:
-    Ui::MainWindow *ui;
-    TCPSocket handler;
+    Ui::MainWindow *ui; // UI object
+    TCPSocket handler; // TCP socket handler object
 };
+
 #endif // MAINWINDOW_H

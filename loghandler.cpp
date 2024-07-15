@@ -1,47 +1,59 @@
 #include "loghandler.h"
 
+// Constructor
 LogHandler::LogHandler(QObject *parent)
-    : Handler{parent}
+    : Handler{parent} // Call base class constructor
 {
-    pru=nullptr;
+    pru = nullptr; // Initialize next handler pointer to null
 }
 
+// Handling function override
 void LogHandler::Handling(QByteArray jso)
 {
-    bool flag=false;
-    bool admin=false;
-    QJsonDocument js=QJsonDocument::fromJson(jso);
-    QJsonObject json=js.object();
-    if(json["Request"].toString()=="Log")
+    bool flag = false;
+    bool admin = false;
+
+    // Convert JSON byte array to JSON object
+    QJsonDocument js = QJsonDocument::fromJson(jso);
+    QJsonObject json = js.object();
+
+    // Check if the request is "Log"
+    if(json["Request"].toString() == "Log")
     {
-        if(json["Response"].toString()=="1"&&json["type"].toString()=="admin")
+        // Check if the response indicates successful log and user type
+        if(json["Response"].toString() == "1" && json["type"].toString() == "admin")
         {
-            flag=true;
-            admin=true;
+            flag = true;
+            admin = true;
         }
-        else if(json["Response"].toString()=="1"&&json["type"].toString()=="user")
+        else if(json["Response"].toString() == "1" && json["type"].toString() == "user")
         {
-            flag=true;
+            flag = true;
         }
         else
         {
+            // Handle other cases if needed
         }
-        emit logsignal(flag,admin);
+
+        // Emit signal with log status and admin flag
+        emit logsignal(flag, admin);
     }
     else
     {
-        if(pru!=nullptr)
+        // If not responsible for the request, forward to next handler
+        if(pru != nullptr)
         {
             pru->Handling(jso);
         }
         else
         {
-
+            // Handle case where there's no next handler
         }
     }
 }
 
+// Set the next handler in the chain
 void LogHandler::SetNextHandler(Handler *pru)
 {
-    this->pru=pru;
+    this->pru = pru;
 }
