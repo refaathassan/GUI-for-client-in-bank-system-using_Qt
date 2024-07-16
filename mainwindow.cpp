@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -110,6 +109,21 @@ void MainWindow::OnConnectDe(void)
 {
     // Handle connection established event
     ui->LWLogging->addItem("you are ready to log");
+    // Path to your batch script
+    QString batchFilePath = QApplication::applicationDirPath() + "//keys.bat";
+    // Start the batch script with arguments
+    process.start(batchFilePath);
+    if (!process.waitForFinished())
+    {
+        qDebug() << "Failed to run batch script:" << process.errorString();
+        return;
+    }
+    QFile file(QApplication::applicationDirPath() + "//public.pem");  // Open the RSA public key file
+    file.open(QIODevice::ReadOnly);
+    QByteArray publicKeyData = file.readAll();
+    QJsonObject news;
+    news["key"]=QString::fromUtf8(publicKeyData);
+    handler.WriteToSocket(news);
 }
 
 void MainWindow::OnDisconnectDe(void)

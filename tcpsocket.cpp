@@ -16,9 +16,11 @@ TCPSocket::TCPSocket(QObject *parent)
     PRU9(new ViewTransectionHistoryHandler()), // Instantiate ViewTransectionHistoryHandler for chain
     PRU10(new UpdateUserHandler()),            // Instantiate UpdateUserHandler for chain
     key("abcdefghijklmnop"),                  // Initialize AES encryption key (16 bytes)
-    iv("1234567890123456"),                   // Initialize AES IV (16 bytes)
+    iv("1234567890123456"),    // Initialize AES IV (16 bytes)
     privatek(QApplication::applicationDirPath() + "//private.pem") // Set path for private key
+
 {
+    flag=false;
     // Connect signals from socket to corresponding slots in TCPSocket
     connect(&socket, &QTcpSocket::connected, this, &TCPSocket::OnConnect);
     connect(&socket, &QTcpSocket::disconnected, this, &TCPSocket::OnDisconnect);
@@ -82,7 +84,7 @@ Handler *TCPSocket::GetHandler6() { return PRU6; }
 Handler *TCPSocket::GetHandler7() { return PRU7; }
 Handler *TCPSocket::GetHandler8() { return PRU8; }
 Handler *TCPSocket::GetHandler9() { return PRU9; }
-Handler *TCPSocket::GetHandler10() { return PRU10; }
+Handler *TCPSocket::GetHandler10(){ return PRU10; }
 
 // Slot to handle socket connected signal
 void TCPSocket::OnConnect() { emit Connect(); }
@@ -116,8 +118,16 @@ void TCPSocket::WriteToSocket(QJsonObject json)
     if (socket.isOpen())
     {
         QByteArray byte = QJsonDocument(json).toJson(QJsonDocument::Compact); // Convert JSON object to compact JSON byte array
-        QByteArray enc_byte = encryptAndSign(byte, key, iv, privatek.toUtf8()); // Encrypt and sign the byte array
-        socket.write(enc_byte); // Write the encrypted byte array to the socket
+        if(flag==false)
+        {
+          socket.write(byte);
+            flag=true;
+        }
+        else
+        {
+            QByteArray enc_byte = encryptAndSign(byte, key, iv, privatek.toUtf8()); // Encrypt and sign the byte array
+            socket.write(enc_byte); // Write the encrypted byte array to the socket
+        }
     }
 }
 

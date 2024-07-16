@@ -59,6 +59,7 @@ private:
     QString ip;             // IP address of the server
     qint32 port;            // Port number for the connection
     QTcpSocket socket;      // TCP socket for communication
+    bool flag;
     Handler *PRU1;          // Handler instance 1
     Handler *PRU2;          // Handler instance 2
     Handler *PRU3;          // Handler instance 3

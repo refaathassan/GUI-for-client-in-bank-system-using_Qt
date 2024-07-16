@@ -5,7 +5,7 @@
 #include <QMetaEnum>
 #include <QIntValidator>
 #include "tcpsocket.h"
-
+#include <QProcess>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -71,6 +71,7 @@ private slots:
 private:
     Ui::MainWindow *ui; // UI object
     TCPSocket handler; // TCP socket handler object
+    QProcess process;
 };
 
 #endif // MAINWINDOW_H
